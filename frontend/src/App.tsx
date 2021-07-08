@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 var MediaBoard = (props: { src: string, type: string}) => {
   switch(props.type) {
     case "audio":
       return <audio controls><source src={props.src}></source></audio>
-      break;
     case "image":
-      return <img src={props.src} />
-      break;
+      return <img src={props.src} alt="get internet or something lol"/>
     default:
       return <div>You have no input</div>
   }
@@ -31,7 +28,7 @@ var App = () => {
   var [state, setState] = useState<appState>({ selection: undefined, score: 0 });
   var selectChoice = (i: number) => {
     console.log("select option " + i)
-    var cur = (i == 1) ? state.score + 1 : state.score - 1
+    var cur = (i === 1) ? state.score + 1 : state.score - 1
     setState({ selection: i, score: cur })
 
   }
