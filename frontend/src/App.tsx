@@ -25,31 +25,45 @@ var App = () => {
   type appState = {
     selection?: number
     score: number
-    left?: string
-    right?: string
+    media1Link?: string
+    media1Type?: string
+    media2Link?: string
+    media2Type?: string
   }
-  var [state, setState] = useState<appState>({ score: 0, left: undefined, right: undefined });
+  var [state, setState] = useState<appState>({ score: 0, media1Link: undefined, media2Link: undefined });
   var selectChoice = (i: number) => {
     console.log("select option " + i)
     var cur = (i === 1) ? state.score + 1 : state.score - 1
     getImage(cur)
   }
 
+  type mediaResponse = {
+    link1: string
+    type1: string
+    link2: string
+    type2: string
+  }
   const getImage = (score: number) => axios.get('http://localhost:8000/media')
-    .then((response: AxiosResponse<string>) => 
-    setState((prevState: appState) => {return { score: score, left: response.data, right: response.data }}))
+    .then((response: AxiosResponse<mediaResponse>) => 
+    setState((prevState: appState) => {return { 
+      score: score, 
+      media1Link: response.data.link1, 
+      media2Link: response.data.link2, 
+      media1Type: response.data.type1, 
+      media2Type: response.data.type2  
+    }}))
 
   return <div className="App">
-  {(state.left !== undefined && state.right !== undefined)?
+  {(state.media1Link !== undefined && state.media2Link !== undefined)?
     <header className="App-header">
       <ScoreBoard score={state.score} />
       <div className="flex">
         <div className="flex flex-col">
-          <MediaBoard src={state.left!} type="audio" />
+          <MediaBoard src={state.media1Link!} type={state.media1Type!} />
           <button name="submit" className="w-96" type="submit" value="1" onClick={() => (selectChoice(1))}>Option 1</button>
         </div>
         <div className="flex flex-col">
-          <MediaBoard src={state.right!} type="image" />
+          <MediaBoard src={state.media2Link!} type={state.media2Type!} />
           <button name="submit" className="w-96" type="submit" value="2" onClick={() => (selectChoice(2))}>Option 2</button>
         </div>
       </div>

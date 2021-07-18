@@ -11,7 +11,12 @@ const app = express()
 
 app.use(cors())
 app.get('/media', (req, res) => {
-   res.send("https://i.ytimg.com/vi/W97Hztb6_5I/maxresdefault.jpg")
+   res.send({ 
+      link1: "https://i.ytimg.com/vi/W97Hztb6_5I/maxresdefault.jpg", 
+      type1: "image", 
+      link2: "https://i.ytimg.com/vi/W97Hztb6_5I/maxresdefault.jpg", 
+      type2: "image" 
+   })
 })
 app.use(express.static('build'))
 
