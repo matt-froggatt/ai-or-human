@@ -4,6 +4,8 @@
   "description": "Backend for AI or Human",
   "main": "dist/index.js",
   "dependencies": {
+    "@types/cors": "^2.8.12",
+    "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "mysql2": "^2.2.5",
