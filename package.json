@@ -20,7 +20,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc",
+    "build": "tsc && cd frontend && npm install && npm run build && cd .. && rm -f static && ln -s frontend/build static",
     "start": "tsc & node .",
     "dev": "tsc -w & nodemon ."
   },
