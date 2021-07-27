@@ -7,6 +7,21 @@ import "reflect-metadata";
 import { createConnection } from "typeorm";
 require("dotenv").config()
 
+function randomEnum<T>(anEnum: T): T[keyof T] {
+   const enumValues = Object.keys(anEnum)
+      .filter(n => !Number.isNaN(n)) as unknown as T[keyof T][]
+   const randomIndex = Math.floor(Math.random() * enumValues.length)
+   const randomEnumValue = enumValues[randomIndex]
+   return randomEnumValue;
+}
+
+function shuffleArray<T>(array: T[]) {
+   for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+   }
+}
+
 console.log("Starting...")
 
 // here you can start to work with your entities
@@ -15,29 +30,37 @@ const http = require("http");
 
 const app = express()
 app.use(cors())
-app.use(express.static('build'))
+app.use(express.static('frontend'))
 
 createConnection().then(connection => {
    const mediaRepository = connection.getRepository(Media)
 
    console.log("Connected to database")
-
-   // TODO actually pull data (need to put data in DB and delete existing info)
    app.get('/media', async (req, res) => {
-      console.log(await mediaRepository.count())
+      const randomGenre = randomEnum(MediaGenre)
+      const humanMedia = await mediaRepository.find({
+         where: { genre: randomGenre, isAIMade: false }
+      })
+      const aiMedia = await mediaRepository.find({
+         where: { genre: randomGenre, isAIMade: true }
+      })
+      const artPieces = [aiMedia[Math.floor(Math.random() * aiMedia.length)], humanMedia[Math.floor(Math.random() * humanMedia.length)]]
+      shuffleArray(artPieces)
+
       res.send({
-         link1: "https://i.ytimg.com/vi/W97Hztb6_5I/maxresdefault.jpg",
-         type1: "image",
-         id1: "1",
-         link2: "https://i.ytimg.com/vi/W97Hztb6_5I/maxresdefault.jpg",
-         type2: "image",
-         id2: "2"
+         link1: artPieces[0].link,
+         type1: artPieces[0].type,
+         id1: artPieces[0].id,
+         link2: artPieces[1].link,
+         type2: artPieces[1].type,
+         id2: artPieces[1].id
       })
    })
 
    // TODO save analytic information in DB
-   app.get('/score', (req, res) => {
-      res.send(req.query.id === "2")
+   app.get('/score', async (req, res) => {
+      const selectedMedia = await mediaRepository.findOne(req.query.id as string)
+      res.send(selectedMedia.isAIMade)
    })
 
    app.listen(process.env.PORT)
