@@ -11,6 +11,7 @@
 # production
 /build
 /dist
+static
 ormconfig.json
 
 # misc

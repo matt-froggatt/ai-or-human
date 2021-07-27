@@ -31,7 +31,7 @@ const http = require("http");
 
 const app = express()
 app.use(cors())
-app.use(express.static('frontend'))
+app.use(express.static('static'))
 
 createConnection().then(connection => {
    const mediaRepository = connection.getRepository(Media)
