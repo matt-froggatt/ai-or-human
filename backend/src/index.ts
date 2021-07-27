@@ -5,6 +5,7 @@ import { Media, MediaType, MediaGenre } from './entity/Media';
 
 import "reflect-metadata";
 import { createConnection } from "typeorm";
+require("dotenv").config()
 
 console.log("Starting...")
 
@@ -12,25 +13,11 @@ console.log("Starting...")
 // Load HTTP module
 const http = require("http");
 
-const hostname = "127.0.0.1";
-const port = 8000;
-
 const app = express()
 app.use(cors())
 app.use(express.static('build'))
 
-
-createConnection({
-   type: "mysql",
-   host: "localhost",
-   port: 3306,
-   username: "root",
-   password: "test",
-   database: "test",
-   entities: [Media],
-   synchronize: true,
-   logging: false
-}).then(connection => {
+createConnection().then(connection => {
    const mediaRepository = connection.getRepository(Media)
 
    console.log("Connected to database")
@@ -53,9 +40,9 @@ createConnection({
       res.send(req.query.id === "2")
    })
 
-   app.listen(port)
+   app.listen(process.env.PORT)
 
-   console.log("Started on port " + port)
+   console.log("Started on port " + process.env.PORT)
 
 }).catch(error => console.log(error));
 
