@@ -49,6 +49,7 @@ var App = () => {
     type2: string
     id2: string
   }
+  
   const getImage = (score: number) => axios.get('http://localhost:8000/media')
     .then((response: AxiosResponse<mediaResponse>) =>
       setState((prevState: appState) => {
