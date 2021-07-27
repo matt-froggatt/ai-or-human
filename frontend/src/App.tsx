@@ -33,12 +33,10 @@ var App = () => {
     media2Id?: string
   }
   var [state, setState] = useState<appState>({ score: 0, media1Link: undefined, media2Link: undefined });
-  var selectChoice = (id: string) => {
-    console.log("select option with id: " + id)
-    axios.get('http://localhost:8000/score', { params: { id: id } }).then((response: AxiosResponse<boolean>) => {
-      var cur = response.data ? state.score + 1 : state.score - 1
-      getImage(cur)
-    })
+  var selectChoice = (selectedId: string, unselectedId: string) => {
+    console.log("select option with id: " + selectedId + " did not select:")
+    axios.get('http://localhost:8000/score', { params: { selectedId: selectedId, unselectedId: unselectedId } }).then((response: AxiosResponse<boolean>) =>
+      getImage(response.data ? state.score + 1 : state.score - 1))
   }
 
   type mediaResponse = {
@@ -49,7 +47,7 @@ var App = () => {
     type2: string
     id2: string
   }
-  
+
   const getImage = (score: number) => axios.get('http://localhost:8000/media')
     .then((response: AxiosResponse<mediaResponse>) =>
       setState((prevState: appState) => {
@@ -71,11 +69,11 @@ var App = () => {
         <div className="flex">
           <div className="flex flex-col">
             <MediaBoard src={state.media1Link!} type={state.media1Type!} />
-            <button name="submit" className="w-96" type="submit" value="1" onClick={() => (selectChoice(state.media1Id!))}>Option 1</button>
+            <button name="submit" className="w-96" type="submit" value="1" onClick={() => (selectChoice(state.media1Id!, state.media2Id!))}>Option 1</button>
           </div>
           <div className="flex flex-col">
             <MediaBoard src={state.media2Link!} type={state.media2Type!} />
-            <button name="submit" className="w-96" type="submit" value="2" onClick={() => (selectChoice(state.media2Id!))}>Option 2</button>
+            <button name="submit" className="w-96" type="submit" value="2" onClick={() => (selectChoice(state.media2Id!, state.media1Id!))}>Option 2</button>
           </div>
         </div>
         <SelectedChoice selection={state.selection} />

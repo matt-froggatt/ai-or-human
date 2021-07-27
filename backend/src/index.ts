@@ -5,6 +5,7 @@ import { Media, MediaType, MediaGenre } from './entity/Media';
 
 import "reflect-metadata";
 import { createConnection } from "typeorm";
+import { AnalyticsData } from './entity/AnalyticsData';
 require("dotenv").config()
 
 function randomEnum<T>(anEnum: T): T[keyof T] {
@@ -34,6 +35,7 @@ app.use(express.static('frontend'))
 
 createConnection().then(connection => {
    const mediaRepository = connection.getRepository(Media)
+   const analyticsRepository = connection.getRepository(AnalyticsData)
 
    console.log("Connected to database")
    app.get('/media', async (req, res) => {
@@ -59,7 +61,15 @@ createConnection().then(connection => {
 
    // TODO save analytic information in DB
    app.get('/score', async (req, res) => {
-      const selectedMedia = await mediaRepository.findOne(req.query.id as string)
+      const selectedMedia = await mediaRepository.findOne(req.query.selectedId as string)
+      const unselectedMedia = await mediaRepository.findOne(req.query.unselectedId as string)
+
+      const analyticsData = new AnalyticsData()
+      analyticsData.selectedMedia = selectedMedia
+      analyticsData.unselectedMedia = unselectedMedia
+
+      analyticsRepository.save(analyticsData)
+
       res.send(selectedMedia.isAIMade)
    })
 
