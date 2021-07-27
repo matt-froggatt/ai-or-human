@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from "typeorm"
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, ManyToMany, ManyToOne } from "typeorm"
 import { Media } from "./Media"
 
 @Entity()
@@ -6,11 +6,11 @@ export class AnalyticsData {
     @PrimaryGeneratedColumn()
     id: number
 
-    @OneToOne(type => Media)
+    @ManyToOne(type => Media)
     @JoinColumn()
     selectedMedia: Media
 
-    @OneToOne(type => Media)
+    @ManyToOne(type => Media)
     @JoinColumn()
     unselectedMedia: Media
 }
