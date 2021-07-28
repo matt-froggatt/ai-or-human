@@ -21,9 +21,10 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc && cd frontend && npm install && npm run build && cd .. && rm -f static && ln -s frontend/build static",
+    "build": "tsc",
     "start": "node .",
-    "dev": "tsc -w & nodemon ."
+    "dev": "tsc -w & nodemon .",
+    "heroku-postbuild": "cd frontend && npm install && npm run build && cd .. && rm -f static && ln -s frontend/build static"
   },
   "author": "",
   "license": "ISC"
