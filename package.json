@@ -24,7 +24,7 @@
     "build": "tsc",
     "start": "node .",
     "dev": "tsc -w & nodemon .",
-    "heroku-postbuild": "cd frontend && npm install && npm run build && cd .. && rm -f static && ln -s frontend/build static"
+    "heroku-postbuild": "tsc && cd frontend && npm install && npm run build && cd .. && rm -f static && ln -s frontend/build static"
   },
   "author": "",
   "license": "ISC"
