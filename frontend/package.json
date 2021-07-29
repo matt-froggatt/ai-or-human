@@ -23,9 +23,9 @@
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.7"
   },
   "scripts": {
-    "start": "API_HOST='http://localhost:8000' craco start",
-    "build": "API_HOST='https://ai-or-not.herokuapp.com' craco build",
-    "test": "API_HOST='http://localhost:8000' craco test",
+    "start": "REACT_APP_API='http://localhost:8000' craco start",
+    "build": "REACT_APP_API='https://ai-or-not.herokuapp.com' craco build",
+    "test": "REACT_APP_API='http://localhost:8000' craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
