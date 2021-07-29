@@ -27,7 +27,11 @@ export enum MediaGenre {
     POP = "POP",
     RACHMANINOFF = "RACHMANINOFF",
     RAGE = "RAGE",
-    RICK_ASTLEY = "RICK_ASTLEY"
+    RICK_ASTLEY = "RICK_ASTLEY",
+    CLASSICAL = "CLASSICAL",
+    COUNTRY = "COUNTRY",
+    JOURNEY = "JOURNEY",
+    MOZART = "MOZART"
 }
 
 @Entity()
