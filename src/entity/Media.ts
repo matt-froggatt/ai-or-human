@@ -6,7 +6,7 @@ export enum MediaType {
     IMAGE = "IMAGE"
 }
 
-export enum MediaGenre2 {
+export enum MediaGenre {
     TWOPAC = "TWOPAC",
     ALAN_JACKSON = "ALAN_JACKSON",
     BLUEGRASS = "BLUEGRASS",
@@ -53,7 +53,7 @@ export class Media {
 
     @Column({
         type: "enum",
-        enum: MediaGenre2
+        enum: MediaGenre
     })
-    genre: MediaGenre2
+    genre: MediaGenre
 }
