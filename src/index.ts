@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import 'reflect-metadata'
-import { Media, MediaType, MediaGenre } from './entity/Media';
+import { Media, MediaType, MediaGenre2 } from './entity/Media';
 
 import "reflect-metadata";
 import { createConnection } from "typeorm";
@@ -39,7 +39,7 @@ createConnection().then(connection => {
 
    console.log("Connected to database")
    app.get('/media', async (req, res) => {
-      const randomGenre = randomEnum(MediaGenre)
+      const randomGenre = randomEnum(MediaGenre2)
       const humanMedia = await mediaRepository.find({
          where: { genre: randomGenre, isAIMade: false }
       })
