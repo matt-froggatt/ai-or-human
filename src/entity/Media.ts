@@ -7,8 +7,27 @@ export enum MediaType {
 }
 
 export enum MediaGenre {
-    GOOD = "GOOD",
-    BAD = "BAD"
+    TWOPAC = "TWOPAC",
+    ALAN_JACKSON = "ALAN_JACKSON",
+    BLUEGRASS = "BLUEGRASS",
+    BOB_MARLEY = "BOB_MARLEY",
+    JOE_BONAMASSA = "JOE_BONAMASSA",
+    BRUNO_MARS = "BRUNO_MARS",
+    CHOPIN = "CHOPIN",
+    DAVID_BOWIE = "DAVID_BOWIE",
+    EAGLES = "EAGLES",
+    ELVIS_PRESLEY = "ELVIS_PRESLEY",
+    FRANK_SINATRA = "FRANK_SINATRA",
+    JAZZ = "JAZZ",
+    KANYE_WEST = "KANYE_WEST",
+    KATY_PERRY = "KATY_PERRY",
+    KYLIE_JENNER = "KYLIE_JENNER",
+    NAS = "NAS",
+    PIANO = "PIANO",
+    POP = "POP",
+    RACHMANINOFF = "RACHMANINOFF",
+    RAGE = "RAGE",
+    RICK_ASTLEY = "RICK_ASTLEY"
 }
 
 @Entity()
