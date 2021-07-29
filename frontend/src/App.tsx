@@ -34,7 +34,7 @@ var App = () => {
   var [state, setState] = useState<appState>({ score: 0, media1Link: undefined, media2Link: undefined, selection: undefined });
   var selectChoice = (selectedId: string, unselectedId: string) => {
     console.log("select option with id: " + selectedId + " did not select:" + unselectedId)
-    axios.get(`http://${process.env.API_HOST}/score`, { params: { selectedId: selectedId, unselectedId: unselectedId } }).then((response: AxiosResponse<boolean>) =>
+    axios.get(`${process.env.API_HOST}/score`, { params: { selectedId: selectedId, unselectedId: unselectedId } }).then((response: AxiosResponse<boolean>) =>
       getImage(response.data ? state.score + 1 : state.score - 1))
   }
 
@@ -47,7 +47,7 @@ var App = () => {
     id2: string
   }
 
-  const getImage = (score: number) => axios.get(`http://${process.env.API_HOST}/media`)
+  const getImage = (score: number) => axios.get(`${process.env.API_HOST}/media`)
     .then((response: AxiosResponse<mediaResponse>) =>
       setState((prevState: appState) => {
         return {
