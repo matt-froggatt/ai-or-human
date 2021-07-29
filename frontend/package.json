@@ -11,6 +11,7 @@
     "@types/node": "^12.20.15",
     "@types/react": "^17.0.13",
     "@types/react-dom": "^17.0.8",
+    "@types/tailwindcss": "^2.2.1",
     "axios": "^0.21.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -45,6 +46,6 @@
   "devDependencies": {
     "autoprefixer": "^9.8.6",
     "postcss": "^7.0.36",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.4"
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.7"
   }
 }
