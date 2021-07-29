@@ -3,9 +3,9 @@ import axios, { AxiosResponse } from 'axios';
 
 var MediaBoard = (props: { src: string, type: string }) => {
   switch (props.type) {
-    case "audio":
+    case "AUDIO":
       return <audio controls><source src={props.src}></source></audio>
-    case "image":
+    case "IMAGE":
       return <img src={props.src} alt="get internet or something lol" className="object-contain" />
     default:
       return <div>You have no input</div>
