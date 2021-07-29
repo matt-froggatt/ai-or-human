@@ -1,14 +1,14 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm"
 
 export enum MediaType {
-    AUDIO = "audio",
-    VIDEO = "video",
-    IMAGE = "image"
+    AUDIO = "AUDIO",
+    VIDEO = "VIDEO",
+    IMAGE = "IMAGE"
 }
 
 export enum MediaGenre {
-    GOOD = "good",
-    BAD = "bad"
+    GOOD = "GOOD",
+    BAD = "BAD"
 }
 
 @Entity()

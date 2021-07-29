@@ -37,6 +37,34 @@ createConnection().then(connection => {
    const mediaRepository = connection.getRepository(Media)
    const analyticsRepository = connection.getRepository(AnalyticsData)
 
+   const media1 = new Media()
+   media1.genre = MediaGenre.GOOD
+   media1.isAIMade = false
+   media1.link = "https://img.buzzfeed.com/buzzfeed-static/static/2018-04/13/16/asset/buzzfeed-prod-web-08/sub-buzz-3730-1523651298-7.jpg?downsize=700%3A%2A&output-quality=auto&output-format=auto"
+   media1.type = MediaType.IMAGE
+   mediaRepository.save(media1)
+
+   const media2 = new Media()
+   media2.genre = MediaGenre.GOOD
+   media2.isAIMade = true
+   media2.link = "https://img.buzzfeed.com/buzzfeed-static/static/2018-04/13/16/asset/buzzfeed-prod-web-08/sub-buzz-3730-1523651298-7.jpg?downsize=700%3A%2A&output-quality=auto&output-format=auto"
+   media2.type = MediaType.IMAGE
+   mediaRepository.save(media2)
+
+   const media3 = new Media()
+   media3.genre = MediaGenre.BAD
+   media3.isAIMade = false
+   media3.link = "https://img.buzzfeed.com/buzzfeed-static/static/2018-04/13/16/asset/buzzfeed-prod-web-08/sub-buzz-3730-1523651298-7.jpg?downsize=700%3A%2A&output-quality=auto&output-format=auto"
+   media3.type = MediaType.IMAGE
+   mediaRepository.save(media3)
+
+   const media4 = new Media()
+   media4.genre = MediaGenre.BAD
+   media4.isAIMade = true
+   media4.link = "https://img.buzzfeed.com/buzzfeed-static/static/2018-04/13/16/asset/buzzfeed-prod-web-08/sub-buzz-3730-1523651298-7.jpg?downsize=700%3A%2A&output-quality=auto&output-format=auto"
+   media4.type = MediaType.IMAGE
+   mediaRepository.save(media4)
+
    console.log("Connected to database")
    app.get('/media', async (req, res) => {
       const randomGenre = randomEnum(MediaGenre)
