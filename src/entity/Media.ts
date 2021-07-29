@@ -51,9 +51,6 @@ export class Media {
     })
     type: MediaType
 
-    @Column({
-        type: "enum",
-        enum: MediaGenre
-    })
+    @Column("text")
     genre: MediaGenre
 }
