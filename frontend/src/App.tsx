@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
-import process from 'process';
+import axios from 'axios';
 
-var MediaBoard = (props: { src: string, type: string }) => {
+const MediaBoard = (props: { src: string, type: string }) => {
   switch (props.type) {
     case "AUDIO":
       return <audio controls><source src={props.src}></source></audio>
@@ -13,15 +12,15 @@ var MediaBoard = (props: { src: string, type: string }) => {
   }
 }
 
-var SelectedChoice = (props: { selection?: number }) => (
+const SelectedChoice = (props: { selection?: number }) => (
   (props.selection) ? <div>You selected {props.selection}</div> : null
 )
 
-var ScoreBoard = (props: { score: number }) => (
+const ScoreBoard = (props: { score: number }) => (
   <div>SCORE: {props.score}</div>
 )
 
-var App = () => {
+const App = () => {
   type appState = {
     selection?: number
     score: number
@@ -32,11 +31,26 @@ var App = () => {
     media2Type?: string
     media2Id?: string
   }
-  var [state, setState] = useState<appState>({ score: 0, media1Link: undefined, media2Link: undefined, selection: undefined });
-  var selectChoice = (selectedId: string, unselectedId: string) => {
-    console.log("select option with id: " + selectedId + " did not select:" + unselectedId)
-    axios.get(`https://ai-or-not.herokuapp.com/score`, { params: { selectedId: selectedId, unselectedId: unselectedId } }).then((response: AxiosResponse<boolean>) =>
-      getImage(response.data ? state.score + 1 : state.score - 1))
+  const [state, setState] = useState<appState>({ score: 0, media1Link: undefined, media2Link: undefined, selection: undefined });
+  const [finished, setFinished] = useState<boolean | undefined>(undefined);
+
+  const startGame = () => {
+    setState((prevState) => ({...prevState, score: 0}));
+    getImage();
+  }
+
+  const selectChoice = async (selectedId: string, unselectedId: string) => {
+    const response = await axios.get<boolean>(`https://ai-or-not.herokuapp.com/score`, { params: { selectedId: selectedId, unselectedId: unselectedId } });
+    console.log(response.data);
+    if (response.data)
+    {
+      setState((prevState) => {
+        return {...prevState, score: prevState.score + 1}
+      });
+      await getImage();
+    } else {
+      setFinished(true);
+    }
   }
 
   type mediaResponse = {
@@ -48,21 +62,50 @@ var App = () => {
     id2: string
   }
 
-  console.log(`${process.env.REACT_APP_API}/media`)
+  // console.log(`${process.env.REACT_APP_API}/media`)
 
-  const getImage = (score: number) => axios.get(`https://ai-or-not.herokuapp.com/media`)
-    .then((response: AxiosResponse<mediaResponse>) =>
-      setState((prevState: appState) => {
-        return {
-          score: score,
-          media1Link: response.data.link1,
-          media1Type: response.data.type1,
-          media1Id: response.data.id1,
-          media2Link: response.data.link2,
-          media2Type: response.data.type2,
-          media2Id: response.data.id2
-        }
-      }))
+  const getImage = async () => {
+    const response = await axios.get<mediaResponse>(`https://ai-or-not.herokuapp.com/media`);
+    setState((prevState: appState) => {
+      return {
+        ...prevState,
+        media1Link: response.data.link1,
+        media1Type: response.data.type1,
+        media1Id: response.data.id1,
+        media2Link: response.data.link2,
+        media2Type: response.data.type2,
+        media2Id: response.data.id2
+      }
+    });
+  }
+  
+  // axios.get(`https://ai-or-not.herokuapp.com/media`)
+  //   .then((response: AxiosResponse<mediaResponse>) =>
+  //     setState((prevState: appState) => {
+  //       return {
+  //         score: score,
+  //         media1Link: response.data.link1,
+  //         media1Type: response.data.type1,
+  //         media1Id: response.data.id1,
+  //         media2Link: response.data.link2,
+  //         media2Type: response.data.type2,
+  //         media2Id: response.data.id2
+  //       }
+  //     }))
+
+  const backToHome = () => {
+    setFinished(false);
+    setState((prevState) => {
+      return {...prevState, media1Link: undefined, media2Link: undefined}
+    });
+  }
+
+  if (finished) {
+    return (<div style ={{textAlign: "center"}}>
+      <div>You lose! Your score is: {state.score}</div>
+      <button onClick={backToHome}>Back To Home</button>
+    </div>)
+  }
 
   return <div className="flex flex-col w-screen h-screen overflow-hidden items-center">
     {(state.media1Link !== undefined && state.media2Link !== undefined) ?
@@ -70,20 +113,22 @@ var App = () => {
         <ScoreBoard score={state.score} />
         <div className="flex w-full h-full">
           <div className="flex flex-col items-center justify-center w-1/2 h-full bg-black">
-            <button className="hover:opacity-75" onClick={() => (selectChoice(state.media1Id!, state.media2Id!))}>
+            <div className="hover:opacity-75">
               <MediaBoard src={state.media1Link!} type={state.media1Type!} />
-            </button>
+              <button onClick={() => {selectChoice(state.media1Id!, state.media2Id!)}} style={{color: 'white'}}>Select 1</button>
+            </div>
           </div>
           <div className="flex flex-col items-center justify-center w-1/2 h-full bg-black">
-            <button className="hover:opacity-75" onClick={() => (selectChoice(state.media1Id!, state.media2Id!))} >
+            <div className="hover:opacity-75">
               <MediaBoard src={state.media2Link!} type={state.media2Type!} />
-            </button>
+              <button onClick={() => {selectChoice(state.media2Id!, state.media1Id!)}} style={{color: 'white'}}>Select 2</button>
+            </div>
           </div>
         </div>
         <SelectedChoice selection={state.selection} />
       </>
       :
-      <button name="submit" className="bg-green-400 rounded-md p-2" onClick={() => getImage(state.score)}>Start Game</button>}
+      <button name="submit" className="bg-green-400 rounded-md p-2" onClick={startGame}>Start Game</button>}
   </div>
 };
 
