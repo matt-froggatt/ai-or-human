@@ -5,6 +5,8 @@ import Media from './types/Media';
 import GameOver from './components/GameOver';
 import HomePage from './components/HomePage';
 
+const host = "https://ai-or-not.herokuapp.com"
+
 const App = () => {
   type AppState = {
     selection?: number
@@ -21,7 +23,7 @@ const App = () => {
   }
 
   const selectChoice = async (selectedId: string, unselectedId: string) => {
-    const response = await axios.get<boolean>(`http://localhost:8000/score`, { params: { selectedId: selectedId, unselectedId: unselectedId } });
+    const response = await axios.get<boolean>(`${host}/score`, { params: { selectedId: selectedId, unselectedId: unselectedId } });
     console.log(response.data);
     if (response.data)
     {
@@ -35,7 +37,7 @@ const App = () => {
   }
 
   const getImage = async () => {
-    const response = await axios.get<[Media, Media]>(`http://localhost:8000/media`);
+    const response = await axios.get<[Media, Media]>(`${host}/media`);
     setState((prevState: AppState) => {
       return {
         ...prevState,
