@@ -56,12 +56,10 @@ const App = () => {
     return (<GameOver onClick={backToHome} score={state.score}/>)
   }
 
-  return <div className="w-screen h-screen overflow-hidden">
-    {(state.media1 !== undefined && state.media2 !== undefined) ?
+  return (state.media1 !== undefined && state.media2 !== undefined) ?
       <Game media1={state.media1} media2={state.media2} score={state.score} onSelectChoice={selectChoice}/>
       :
-      <HomePage onClick={startGame}/>}
-  </div>
+      <HomePage onClick={startGame}/>
 };
 
 export default App;
