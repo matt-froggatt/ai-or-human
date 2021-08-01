@@ -49,14 +49,18 @@ createConnection().then(connection => {
       const artPieces = [aiMedia[Math.floor(Math.random() * aiMedia.length)], humanMedia[Math.floor(Math.random() * humanMedia.length)]]
       shuffleArray(artPieces)
 
-      res.send({
-         link1: artPieces[0].link,
-         type1: artPieces[0].type,
-         id1: artPieces[0].id,
-         link2: artPieces[1].link,
-         type2: artPieces[1].type,
-         id2: artPieces[1].id
-      })
+      res.send([
+         {
+            link: artPieces[0].link,
+            type: artPieces[0].type,
+            id: artPieces[0].id,
+         },
+         {
+            link: artPieces[1].link,
+            type: artPieces[1].type,
+            id: artPieces[1].id
+         }
+      ])
    })
 
    // TODO save analytic information in DB
