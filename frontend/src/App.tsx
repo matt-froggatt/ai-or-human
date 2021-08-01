@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
-import MediaBoard from './components/MediaBoard';
-import ScoreBoard from './components/ScoreBoard';
+import Game from './components/Game';
 import Media from './types/Media';
 import GameOver from './components/GameOver';
+import HomePage from './components/HomePage';
 
 const App = () => {
   type AppState = {
@@ -56,27 +56,11 @@ const App = () => {
     return (<GameOver onClick={backToHome} score={state.score}/>)
   }
 
-  return <div className="flex flex-col w-screen h-screen overflow-hidden items-center">
+  return <div className="w-screen h-screen overflow-hidden">
     {(state.media1 !== undefined && state.media2 !== undefined) ?
-      <>
-        <ScoreBoard score={state.score} />
-        <div className="flex w-full h-full">
-          <div className="flex flex-col items-center justify-center w-1/2 h-full bg-black">
-            <div className="hover:opacity-75">
-              <MediaBoard src={state.media1.link!} type={state.media1.type!} />
-              <button onClick={() => {selectChoice(state.media1!.id, state.media2!.id)}} style={{color: 'white'}}>Select 1</button>
-            </div>
-          </div>
-          <div className="flex flex-col items-center justify-center w-1/2 h-full bg-black">
-            <div className="hover:opacity-75">
-              <MediaBoard src={state.media2.link!} type={state.media2.type!} />
-              <button onClick={() => {selectChoice(state.media2!.id, state.media1!.id)}} style={{color: 'white'}}>Select 2</button>
-            </div>
-          </div>
-        </div>
-      </>
+      <Game media1={state.media1} media2={state.media2} score={state.score} onSelectChoice={selectChoice}/>
       :
-      <button name="submit" className="bg-green-400 rounded-md p-2" onClick={startGame}>Start Game</button>}
+      <HomePage onClick={startGame}/>}
   </div>
 };
 
