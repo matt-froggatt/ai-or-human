@@ -15,7 +15,7 @@ const App = () => {
     media2?: Media
   }
   const [state, setState] = useState<AppState>({ score: 0, media1: undefined, media2: undefined, selection: undefined });
-  const [finished, setFinished] = useState<boolean | undefined>(undefined);
+  const [finished, setFinished] = useState<boolean>(false);
 
   const startGame = () => {
     setState((prevState) => ({...prevState, score: 0}));
@@ -24,7 +24,6 @@ const App = () => {
 
   const selectChoice = async (selectedId: string, unselectedId: string) => {
     const response = await axios.get<boolean>(`${host}/score`, { params: { selectedId: selectedId, unselectedId: unselectedId } });
-    console.log(response.data);
     if (response.data)
     {
       setState((prevState) => {
