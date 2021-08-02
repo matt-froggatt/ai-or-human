@@ -7,31 +7,37 @@ export enum MediaType {
 }
 
 export enum MediaGenre {
-    TWOPAC = "TWOPAC",
+    ABSTRACT = 'ABSTRACT',
+    ABSTRACT_PORTRAIT = 'ABSTRACT_PORTRAIT',
     ALAN_JACKSON = "ALAN_JACKSON",
     BLUEGRASS = "BLUEGRASS",
     BOB_MARLEY = "BOB_MARLEY",
-    JOE_BONAMASSA = "JOE_BONAMASSA",
     BRUNO_MARS = "BRUNO_MARS",
     CHOPIN = "CHOPIN",
+    CLASSICAL = "CLASSICAL",
+    COUNTRY = 'COUNTRY',
+    DARK = 'DARK',
     DAVID_BOWIE = "DAVID_BOWIE",
     EAGLES = "EAGLES",
     ELVIS_PRESLEY = "ELVIS_PRESLEY",
     FRANK_SINATRA = "FRANK_SINATRA",
     JAZZ = "JAZZ",
+    JOE_BONAMASSA = "JOE_BONAMASSA",
+    JOURNEY = "JOURNEY",
     KANYE_WEST = "KANYE_WEST",
     KATY_PERRY = "KATY_PERRY",
-    KYLIE_JENNER = "KYLIE_JENNER",
+    KYLIE_MINOGUE = "KYLIE_MINOGUE",
+    LANDSCAPE = 'LANDSCAPE',
     NAS = "NAS",
     PIANO = "PIANO",
     POP = "POP",
+    PORTRAIT = 'PORTRAIT',
     RACHMANINOFF = "RACHMANINOFF",
     RAGE = "RAGE",
+    RANDOM = 'RANDOM',
     RICK_ASTLEY = "RICK_ASTLEY",
-    CLASSICAL = "CLASSICAL",
-    COUNTRY = "COUNTRY",
-    JOURNEY = "JOURNEY",
-    MOZART = "MOZART"
+    TWOPAC = "TWOPAC",
+    WOLFGANG_MOZART = "WOLFGANG_MOZART"
 }
 
 @Entity()
@@ -51,9 +57,6 @@ export class Media {
     })
     type: MediaType
 
-    @Column({
-        type: "enum",
-        enum: MediaGenre
-    })
+    @Column("text")
     genre: MediaGenre
 }
